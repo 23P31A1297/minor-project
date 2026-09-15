@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from crudapp import views
-from django.shortcuts import redirect
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +33,7 @@ urlpatterns = [
 
     path('mail/',views.mail,name='mail'),
 
-    path('', lambda request: redirect('/home/')),,
+    path('home/',views.home,name='home'),
     path('about/',views.about,name='about'),
     path('contact/',views.contact,name='contact'),
     path('slot/',views.slot,name='slot'),
