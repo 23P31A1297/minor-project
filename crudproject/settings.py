@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-6hp1=vm^nl7d!qro9%lo%jbcx=p$sy*oq*!j1pu-j2@!b8egq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'slot-booking-for-beautysaloon-ow2a.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
