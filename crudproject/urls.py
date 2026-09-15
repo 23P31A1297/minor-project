@@ -33,7 +33,7 @@ urlpatterns = [
 
     path('mail/',views.mail,name='mail'),
 
-    path('', lambda request: redirect('home')),
+    path('', lambda request: redirect('/home/')),,
     path('about/',views.about,name='about'),
     path('contact/',views.contact,name='contact'),
     path('slot/',views.slot,name='slot'),
