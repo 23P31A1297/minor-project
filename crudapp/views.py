@@ -88,6 +88,51 @@ def data(request):
 #    return render(request,'mail.html',{})
 
 # def mail(request):
+#     if request.method == 'POST':
+#         # Read form fields safely
+#         sndr = request.POST.get('sn', '').strip()
+#         sbj = request.POST.get('sb', '').strip() or 'No subject'
+#         m = request.POST.get('msg', '').strip()
+
+#         if not sndr:
+#             messages.error(request, "Please enter a valid email address.")
+#             return render(request, 'mail.html')
+
+#         # from address configured in settings
+#         from_addr = getattr(settings, 'DEFAULT_FROM_EMAIL', settings.EMAIL_HOST_USER)
+
+#         # Plain text + optional HTML
+#         text_content = m or "No message provided."
+#         html_content = f"<p>{m.replace(chr(10), '<br>')}</p>"  # simple conversion
+
+#         try:
+#             # Option A: simple send_mail (plain text)
+#             # res = send_mail(sbj, text_content, from_addr, [sndr]) 
+
+#             # Option B: HTML + plain text (recommended)
+#             msg = EmailMultiAlternatives(sbj, text_content, from_addr, [sndr])
+#             msg.attach_alternative(html_content, "text/html")
+#             res = msg.send()  # returns number of emails sent
+
+#             if res:
+#                 messages.success(request, "Mail sent successfully to %s" % sndr)
+#                 logger.info("Mail sent to %s (subject=%s)", sndr, sbj)
+#             else:
+#                 messages.error(request, "Mail not sent. No recipients accepted by SMTP server.")
+#                 logger.warning("send() returned 0 for recipient %s", sndr)
+
+#         except Exception as e:
+#             # Log exception and show friendly error to user
+#             logger.exception("Failed to send mail to %s", sndr)
+#             messages.error(request, f"Failed to send email: {e}")
+
+#         # After POST, re-render or redirect (POST-redirect-GET prevents double submit)
+#         return redirect('mail')  # or render with context
+
+#     # GET
+#     return render(request, 'mail.html', {})
+
+def mail(request):
     if request.method == 'POST':
         sndr = request.POST.get('sn', '').strip()
         sbj = request.POST.get('sb', '').strip() or 'No subject'
@@ -142,7 +187,8 @@ def data(request):
         return redirect('mail')
 
     return render(request, 'mail.html', {})
-    
+
+
 def home(request):
    return render(request,'home.html',{})
 
