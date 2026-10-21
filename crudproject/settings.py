@@ -132,6 +132,7 @@ EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT = 465
 EMAIL_HOST_USER='saikona2005@gmail.com'
 EMAIL_HOST_PASSWORD='muue bbbb yrsv mgxh'
+EMAIL_TIMEOUT = 10
 DEFAULT_FROM_EMAIL = 'Beauty Parlour saikona2005@gmail.com'
 
 # Default primary key field type

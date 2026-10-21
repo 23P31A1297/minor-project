@@ -87,9 +87,8 @@ def data(request):
 #          print("mail not sent")
 #    return render(request,'mail.html',{})
 
-def mail(request):
+# def mail(request):
     if request.method == 'POST':
-        # Read form fields safely
         sndr = request.POST.get('sn', '').strip()
         sbj = request.POST.get('sb', '').strip() or 'No subject'
         m = request.POST.get('msg', '').strip()
@@ -98,40 +97,52 @@ def mail(request):
             messages.error(request, "Please enter a valid email address.")
             return render(request, 'mail.html')
 
-        # from address configured in settings
-        from_addr = getattr(settings, 'DEFAULT_FROM_EMAIL', settings.EMAIL_HOST_USER)
+        from_addr = getattr(
+            settings,
+            'DEFAULT_FROM_EMAIL',
+            settings.EMAIL_HOST_USER
+        )
 
-        # Plain text + optional HTML
         text_content = m or "No message provided."
-        html_content = f"<p>{m.replace(chr(10), '<br>')}</p>"  # simple conversion
+        html_content = f"<p>{m.replace(chr(10), '<br>')}</p>"
 
         try:
-            # Option A: simple send_mail (plain text)
-            # res = send_mail(sbj, text_content, from_addr, [sndr]) 
+            logger.info("Starting email send to %s", sndr)
 
-            # Option B: HTML + plain text (recommended)
-            msg = EmailMultiAlternatives(sbj, text_content, from_addr, [sndr])
+            msg = EmailMultiAlternatives(
+                sbj,
+                text_content,
+                from_addr,
+                [sndr]
+            )
             msg.attach_alternative(html_content, "text/html")
-            res = msg.send()  # returns number of emails sent
+
+            res = msg.send(fail_silently=False)
 
             if res:
-                messages.success(request, "Mail sent successfully to %s" % sndr)
-                logger.info("Mail sent to %s (subject=%s)", sndr, sbj)
+                messages.success(
+                    request,
+                    f"Mail sent successfully to {sndr}"
+                )
+                logger.info("Email send completed successfully")
             else:
-                messages.error(request, "Mail not sent. No recipients accepted by SMTP server.")
-                logger.warning("send() returned 0 for recipient %s", sndr)
+                messages.error(
+                    request,
+                    "Mail not sent. Please try again."
+                )
+                logger.warning("Email send returned 0")
 
-        except Exception as e:
-            # Log exception and show friendly error to user
-            logger.exception("Failed to send mail to %s", sndr)
-            messages.error(request, f"Failed to send email: {e}")
+        except Exception:
+            logger.exception("Failed to send email to %s", sndr)
+            messages.error(
+                request,
+                "Email could not be sent. Please try again later."
+            )
 
-        # After POST, re-render or redirect (POST-redirect-GET prevents double submit)
-        return redirect('mail')  # or render with context
+        return redirect('mail')
 
-    # GET
     return render(request, 'mail.html', {})
-
+    
 def home(request):
    return render(request,'home.html',{})
 
