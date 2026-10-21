@@ -15,28 +15,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
 from crudapp import views
 
-
 urlpatterns = [
+    path('', lambda request: redirect('home')),
+
     path('admin/', admin.site.urls),
-    path('create/',views.create,name='create'),
-    path('read/',views.read,name='read'),
-    path('update/<int:id>',views.update,name='update'),
-    path('delete/<int:id>',views.delete,name='delete'),
+    path('create/', views.create, name='create'),
+    path('read/', views.read, name='read'),
+    path('update/<int:id>', views.update, name='update'),
+    path('delete/<int:id>', views.delete, name='delete'),
 
-    path('reg/',views.reg,name='reg'),
-    path('display/',views.display,name='display'),
+    path('reg/', views.reg, name='reg'),
+    path('display/', views.display, name='display'),
 
-    path('profile/',views.profile,name='profile'),
-    path('data/',views.data,name='data'),
+    path('profile/', views.profile, name='profile'),
+    path('data/', views.data, name='data'),
 
-    path('mail/',views.mail,name='mail'),
+    path('mail/', views.mail, name='mail'),
 
-    path('home/',views.home,name='home'),
-    path('about/',views.about,name='about'),
-    path('contact/',views.contact,name='contact'),
-    path('slot/',views.slot,name='slot'),
-    path('register/',views.register,name='register'),
-    path('login/',views.login,name='login'),
+    path('home/', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('slot/', views.slot, name='slot'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
 ]
